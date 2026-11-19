@@ -1,5 +1,5 @@
 @echo off
-title Building moeDesk Standalone Executable
+title Building moeDesk Windows Setup Installer
 cd /d "%~dp0"
 
 echo ===================================================
@@ -15,10 +15,10 @@ if not exist ".venv\Scripts\python.exe" (
 echo [1/3] Ensuring dependencies and PyInstaller...
 ".venv\Scripts\python.exe" -m pip install -q --disable-pip-version-check -r requirements.txt pyinstaller
 
-echo [2/3] Compiling moeDesk to standalone Portable Executable...
+echo [2/3] Compiling moeDesk binaries with PyInstaller...
 ".venv\Scripts\pyinstaller.exe" ^
     --noconfirm ^
-    --onefile ^
+    --onedir ^
     --windowed ^
     --name "moeDesk" ^
     --icon="app_icon.ico" ^
@@ -33,23 +33,39 @@ echo [2/3] Compiling moeDesk to standalone Portable Executable...
     --hidden-import psutil ^
     livewallpaper.py
 
-if %ERRORLEVEL% EQU 0 (
-    if exist "dist\moeDesk.exe" (
-        copy /y "dist\moeDesk.exe" "moeDesk.exe" >nul
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo [ERROR] PyInstaller compilation failed! Check output above.
+    pause
+    exit /b %ERRORLEVEL%
+)
+
+echo.
+echo [3/3] Compiling Setup Installer with Inno Setup...
+
+set "ISCC_PATH="
+if exist "%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe" set "ISCC_PATH=%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe"
+if not defined ISCC_PATH if exist "%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe" set "ISCC_PATH=%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe"
+if not defined ISCC_PATH if exist "%ProgramFiles%\Inno Setup 6\ISCC.exe" set "ISCC_PATH=%ProgramFiles%\Inno Setup 6\ISCC.exe"
+
+if defined ISCC_PATH (
+    "%ISCC_PATH%" moedesk_setup.iss
+    if %ERRORLEVEL% EQU 0 (
+        echo.
+        echo ===================================================
+        echo [SUCCESS] Windows Setup Installer is ready!
+        echo Location: Output\moeDesk_Setup_v1.0.0.exe
+        echo ===================================================
+        echo.
+    ) else (
+        echo [ERROR] Inno Setup compilation failed!
     )
-    echo.
-    echo ===================================================
-    echo [3/3] Build Successful!
-    echo Standalone Portable Executable is ready:
-    echo   - moeDesk.exe
-    echo   - dist\moeDesk.exe
-    echo.
-    echo No installation needed! Just double-click moeDesk.exe
-    echo ===================================================
-    echo.
 ) else (
     echo.
-    echo [ERROR] Build failed! Check the log output above.
+    echo [NOTE] Inno Setup was not found in standard paths.
+    echo Compiled binaries are ready in: dist\moeDesk\
+    echo To build the installer wizard, install Inno Setup and open 'moedesk_setup.iss'.
+    echo.
 )
 
 pause
