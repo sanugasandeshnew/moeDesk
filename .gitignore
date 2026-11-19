@@ -1,0 +1,30 @@
+# Python Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.spec
+
+# PyInstaller build outputs (keep source, not heavy binaries in Git)
+build/
+dist/
+*.exe
+
+
+# User downloaded wallpapers (large video files)
+wallpapers/
+*.mp4
+*.mkv
+*.webm
+
+# App Cache & State
+.cache/
+downloads_state.json
+settings.json
+
+# Inno Setup output folder
+Output/

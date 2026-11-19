@@ -1,0 +1,7 @@
+PySide6>=6.7
+cloudscraper>=1.2.71
+beautifulsoup4>=4.15.0
+pillow>=12.0.0
+requests>=2.30.0
+psutil>=5.9.0
+pyinstaller>=6.0.0
