@@ -10,6 +10,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](#)
 [![GUI](https://img.shields.io/badge/GUI-PySide6%20(Qt6)-41CD52?style=for-the-badge&logo=qt&logoColor=white)](#)
 [![Theme](https://img.shields.io/badge/Theme-AMOLED%20Pitch%20Black-000000?style=for-the-badge)](#)
+[![Download EXE](https://img.shields.io/badge/Download-moeDesk.exe%20(v1.0.0)-0A84FF?style=for-the-badge&logo=windows)](https://github.com/sanugasandeshnew/moeDesk/releases/latest)
 
 <br />
 
